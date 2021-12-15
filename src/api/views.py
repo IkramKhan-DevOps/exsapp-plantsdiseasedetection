@@ -1,14 +1,19 @@
 from rest_framework import generics, viewsets
 from rest_framework import permissions
 from rest_framework import status
+from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 
 from src.accounts.models import User
-
-
 from .serializers import (
     UserPasswordChangeSerializer, UserSerializer,
+    CaptureSerializer)
+
+from .models import (
+    Plant, PlantImage, Disease, DiseaseImage, Capture
 )
+
+""" AUTH USER API' S """
 
 
 class UserPublicDetailedView(generics.RetrieveAPIView):
@@ -55,4 +60,28 @@ class UserPasswordChangeView(generics.UpdateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-""" LIKES AND FRIENDS """
+""" CAPTURES """
+
+
+class CaptureListView(generics.ListAPIView):
+    serializer_class = CaptureSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Capture.objects.filter(user=self.request.user)
+
+
+class CaptureGetPutDeleteView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Capture.objects.all()
+    serializer_class = CaptureSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        capture = get_object_or_404(Capture.objects.filter(user=self.request.user), pk=self.kwargs['pk'])
+        return capture
+
+    def perform_update(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+""" PUBLIC API'S """

@@ -25,6 +25,10 @@ class PlantImage(models.Model):
     def __str__(self):
         return self.plant.name
 
+    def delete(self, *args, **kwargs):
+        self.image.delete(save=True)
+        super(PlantImage, self).delete(*args, **kwargs)
+
 
 class Disease(models.Model):
     name = models.CharField(max_length=255)
@@ -45,6 +49,10 @@ class DiseaseImage(models.Model):
     def __str__(self):
         return self.disease.name
 
+    def delete(self, *args, **kwargs):
+        self.image.delete(save=True)
+        super(DiseaseImage, self).delete(*args, **kwargs)
+
 
 class Canopy(models.Model):
     name = models.CharField(max_length=255)
@@ -57,6 +65,10 @@ class Canopy(models.Model):
 
     def __str__(self):
         return self.name
+
+    def delete(self, *args, **kwargs):
+        self.image.delete(save=True)
+        super(Canopy, self).delete(*args, **kwargs)
 
 
 """ CAPTURES """
@@ -74,3 +86,7 @@ class Capture(models.Model):
 
     def __str__(self):
         return self.image.url
+
+    def delete(self, *args, **kwargs):
+        self.image.delete(save=True)
+        super(Capture, self).delete(*args, **kwargs)
