@@ -27,6 +27,7 @@ from .settings import DEBUG, MEDIA_ROOT, MEDIA_URL
 
 urlpatterns = [
     # ADMIN/ROOT APPLICATION
+    path('', TemplateView.as_view(template_name='website/home.html')),
     path('admin/', admin.site.urls),
 
     # WEBSITE APPLICATION --------------------------------------------------------------------------------
