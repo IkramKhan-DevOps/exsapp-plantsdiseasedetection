@@ -1,34 +1,13 @@
-from base64 import b64encode
-from datetime import datetime, date
-
-import requests
-from dateutil.relativedelta import relativedelta
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
-from requests.auth import HTTPBasicAuth
-
-from django_filters.rest_framework import DjangoFilterBackend
-from django_filters import rest_framework as filters
-
-from rest_framework.generics import get_object_or_404
-from rest_framework.pagination import LimitOffsetPagination
-from rest_framework.permissions import AllowAny
-from rest_framework.views import APIView
-from rest_framework import filters as filterz
 from rest_framework import generics, viewsets
 from rest_framework import permissions
 from rest_framework import status
 from rest_framework.response import Response
 
-from core import settings
-
-from src.api.models import Like, FriendList, Report, MpesaTransaction
 from src.accounts.models import User
 
 
 from .serializers import (
     UserPasswordChangeSerializer, UserSerializer,
-    UserPublicSerializer
 )
 
 
