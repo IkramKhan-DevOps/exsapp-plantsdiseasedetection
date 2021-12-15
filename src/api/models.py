@@ -1,7 +1,6 @@
 from django.db import models
 
 
-
 """ PLANTS > DISEASES > CANOPIES """
 
 
@@ -19,7 +18,7 @@ class Plant(models.Model):
 
 
 class PlantImage(models.Model):
-    plant = models.ForeignKey('Plant', models.CASCADE)
+    plant = models.ForeignKey('Plant', models.CASCADE, related_name='images')
     image = models.ImageField(upload_to='images/plants/')
 
     def __str__(self):
@@ -43,7 +42,7 @@ class Disease(models.Model):
 
 
 class DiseaseImage(models.Model):
-    disease = models.ForeignKey('Disease', models.CASCADE)
+    disease = models.ForeignKey('Disease', models.CASCADE, related_name='images')
     image = models.ImageField(upload_to='images/diseases/')
 
     def __str__(self):

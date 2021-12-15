@@ -2,15 +2,17 @@ from rest_framework import generics, viewsets
 from rest_framework import permissions
 from rest_framework import status
 from rest_framework.generics import get_object_or_404
+from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
 
 from src.accounts.models import User
 from .serializers import (
     UserPasswordChangeSerializer, UserSerializer,
-    CaptureSerializer)
+    CaptureSerializer, PlantSerializer, DiseaseSerializer, CanopySerializer)
 
 from .models import (
-    Plant, PlantImage, Disease, DiseaseImage, Capture
+    Plant, Disease, Capture,
+    Canopy
 )
 
 """ AUTH USER API' S """
@@ -63,12 +65,15 @@ class UserPasswordChangeView(generics.UpdateAPIView):
 """ CAPTURES """
 
 
-class CaptureListView(generics.ListAPIView):
+class CaptureListView(generics.ListCreateAPIView):
     serializer_class = CaptureSerializer
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         return Capture.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 
 class CaptureGetPutDeleteView(generics.RetrieveUpdateDestroyAPIView):
@@ -85,3 +90,24 @@ class CaptureGetPutDeleteView(generics.RetrieveUpdateDestroyAPIView):
 
 
 """ PUBLIC API'S """
+
+
+class PlantViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Plant.objects.all()
+    serializer_class = PlantSerializer
+    permission_classes = [permissions.AllowAny]
+
+
+class DiseaseViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Disease.objects.all()
+    serializer_class = DiseaseSerializer
+    permission_classes = [permissions.AllowAny]
+    pagination_class = LimitOffsetPagination
+
+
+class CanopyViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Canopy.objects.all()
+    serializer_class = CanopySerializer
+    permission_classes = [permissions.AllowAny]
+
+
