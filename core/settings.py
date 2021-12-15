@@ -26,7 +26,7 @@ SERVER = False
 
 if SERVER:
     SITE_ID = 2
-    GOOGLE_CALLBACK_ADDRESS = "http://192.168.100.15:8000/accounts/google/login/callback/"
+    GOOGLE_CALLBACK_ADDRESS = "https://pcuav.pythonanywhere.com/accounts/google/login/callback/"
 else:
     SITE_ID = 1
     GOOGLE_CALLBACK_ADDRESS = "http://127.0.0.1:8000/accounts/google/login/callback/"
